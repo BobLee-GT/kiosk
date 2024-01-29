@@ -78,7 +78,7 @@ class ScanFaceController extends GetxController {
 
       _cameraId = await CameraPlatform.instance.createCamera(
         camera,
-        ResolutionPreset.max,
+        ResolutionPreset.ultraHigh,
         enableAudio: false,
       );
 

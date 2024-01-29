@@ -56,7 +56,14 @@ extension BodyCutstom on ScanFaceScreen {
                   /// Dùng để kiểm tra user có chụp ảnh hay chưa
                   ? ClipRRect(
                       borderRadius: BorderRadius.circular(44),
-                      child: Platform.isWindows ? CameraPlatform.instance.buildPreview(controller.cameraId.value) : CameraPreview(controller.controllerCamera!))
+                      child: Platform.isWindows
+                          ? AspectRatio(
+                              aspectRatio: controller.previewSize!.value.width /
+                                  controller.previewSize!.value.height,
+                              child: CameraPlatform.instance
+                                  .buildPreview(controller.cameraId.value),
+                            )
+                          : CameraPreview(controller.controllerCamera!))
                   : controller.imageFace.value?.path == null
 
                       /// Dùng để kiểm tra anh chụp có bị null đường dẫn không
