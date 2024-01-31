@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:medipay/utils/common/asset/svg.dart';
 import 'package:medipay/utils/common/button.dart';
 import 'package:medipay/utils/common/color.dart';
+import 'package:medipay/utils/common/data.dart';
 import 'package:medipay/utils/common/text_style.dart';
 import 'package:medipay/utils/widget/body/body.dart';
 import 'package:medipay/utils/widget/header/header.dart';
