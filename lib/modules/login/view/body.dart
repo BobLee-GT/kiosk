@@ -28,7 +28,8 @@ extension BodyCustom on LoginScreen {
               spaceVertical(height: 20),
               _moreInfo(
                   svgImage: AssetSVGName.convenient,
-                  title: 'Tiện lợi & dễ sử dụng với mọi đối tượng'),
+                  title: 'Tiện lợi & dễ sử dụng với mọi đối tượng',
+                  canTap: true),
             ],
           ),
         ),
@@ -58,10 +59,18 @@ extension BodyCustom on LoginScreen {
   Widget _moreInfo({
     required String svgImage,
     required String title,
+    bool canTap = false,
   }) {
     return Row(
       children: [
-       SvgPicture.asset(svgImage),
+        GestureDetector(
+            onLongPress: () async {
+              AppDataGlobal.isFullScreen.value =
+                  !AppDataGlobal.isFullScreen.value;
+              await FullScreenWindow.setFullScreen(
+                  AppDataGlobal.isFullScreen.value);
+            },
+            child: SvgPicture.asset(svgImage)),
         spaceHorizontal(width: 20),
         Flexible(
             child: CustomText.textInter(

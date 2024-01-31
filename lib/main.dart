@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:medipay/utils/common/data.dart';
 import 'resource/config/config_environment.dart';
 
 import 'app.dart';
@@ -8,13 +7,7 @@ import 'app.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  SystemChrome.setEnabledSystemUIMode(
-    SystemUiMode.immersive,
-    overlays: [
-      SystemUiOverlay.top, // Shows Status bar and hides Navigation bar
-      SystemUiOverlay.bottom,
-    ],
-  );
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
 
   // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
   //     overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
