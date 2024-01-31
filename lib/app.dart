@@ -17,7 +17,6 @@ import 'utils/common/key_data_local.dart';
 import 'utils/stored/shared_preferences/get.dart';
 import 'package:uni_links/uni_links.dart';
 
-
 bool _initialUriIsHandled = false;
 
 class App extends StatefulWidget {
@@ -27,8 +26,7 @@ class App extends StatefulWidget {
   State<App> createState() => _AppState();
 }
 
-class _AppState extends State<App> with WidgetsBindingObserver{
-
+class _AppState extends State<App> with WidgetsBindingObserver {
   StreamSubscription? _sub;
 
   @override
@@ -52,12 +50,10 @@ class _AppState extends State<App> with WidgetsBindingObserver{
   }
 
   // Do all necessary func to run app
-  Future<void> _handleInitial() async{
-
+  Future<void> _handleInitial() async {
     /// Get type and check type of connect is Wifi, 4G, disconnect internet
     WifiService.connect();
   }
-
 
   //Deelink work when app is not run on background
   Future<void> _handleInitialAppNotRunning() async {
@@ -68,7 +64,6 @@ class _AppState extends State<App> with WidgetsBindingObserver{
         if (uri == null) return;
 
         DeeplinkAppNotRunning.appNotRunning(uri: uri);
-
       } on FormatException catch (err) {
         GoTrustStatusCodePopup.showSnackBar(
             code: "", title: err.message.toString());
@@ -92,6 +87,7 @@ class _AppState extends State<App> with WidgetsBindingObserver{
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      onHorizontalDragUpdate: (details) {return;},
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
         locale: TranslationService.locale,
@@ -121,9 +117,9 @@ void configLoading() {
     ..textColor = AppColor.colorLight
     ..maskColor = AppColor.colorDark.withOpacity(0.5)
     ..animationStyle = EasyLoadingAnimationStyle.opacity
-  // ..textStyle = TextAppStyle()
-  //     .semiBoldTextStyleExtraSmall()
-  //     .copyWith(color: AppColor.colorLight)
+    // ..textStyle = TextAppStyle()
+    //     .semiBoldTextStyleExtraSmall()
+    //     .copyWith(color: AppColor.colorLight)
     ..dismissOnTap = false
     ..userInteractions = false
     ..contentPadding = const EdgeInsets.all(20);
