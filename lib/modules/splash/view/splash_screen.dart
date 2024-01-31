@@ -8,7 +8,7 @@ import '../controller/splash_controller.dart';
 class SplashScreen extends GetView<SplashController> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: Get.width,
       height: Get.height,
       child: Center(

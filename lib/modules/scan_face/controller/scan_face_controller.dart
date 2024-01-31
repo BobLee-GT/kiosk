@@ -6,10 +6,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:camera_platform_interface/camera_platform_interface.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:medipay/modules/scan_face/view/win_cam.dart';
 
+import '../../../routes/app_pages.dart';
+import '../../../utils/call_api/cccd.dart';
 import '../../../utils/call_api/upload/call_api_upload.dart';
+import '../../../utils/common/data.dart';
 
 class ScanFaceController extends GetxController {
   CameraController? controllerCamera;
@@ -149,25 +153,25 @@ class ScanFaceController extends GetxController {
   }
 
   void onTapConfirm() async {
-    // if (imageFace.value?.path == null) return;
-    //
-    // await EasyLoading.show();
-    // String imageLink = await uploadImageGetLink();
-    //
-    // if (imageLink == '') {
-    //   await EasyLoading.dismiss();
-    //   return;
-    // }
-    //
-    // /// Xử lý gửi thông tin đi
-    // bool statusVerify = await CallAPICCCD.faceVerify(
-    //     faceLink: imageLink,
-    //     transactionId: AppDataGlobal.dataCCCDScan.value.transactionId ?? '');
-    //
-    // Get.offAllNamed(Routes.REGISTERRESULT,
-    //     arguments: {"isSuccess": statusVerify});
-    // // Get.offAllNamed(Routes.REGISTERRESULT, arguments: {"isSuccess": true});
-    // await EasyLoading.dismiss();
+    if (imageFace.value?.path == null) return;
+
+    await EasyLoading.show();
+    String imageLink = await uploadImageGetLink();
+
+    if (imageLink == '') {
+      await EasyLoading.dismiss();
+      return;
+    }
+
+    /// Xử lý gửi thông tin đi
+    bool statusVerify = await CallAPICCCD.faceVerify(
+        faceLink: imageLink,
+        transactionId: AppDataGlobal.dataCCCDScan.value.transactionId ?? '');
+
+    Get.offAllNamed(Routes.REGISTERRESULT,
+        arguments: {"isSuccess": statusVerify});
+    // Get.offAllNamed(Routes.REGISTERRESULT, arguments: {"isSuccess": true});
+    await EasyLoading.dismiss();
   }
 
   Future<String> uploadImageGetLink() async {

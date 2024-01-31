@@ -19,15 +19,18 @@ part 'body.dart';
 class LoginScreen extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: Get.width,
-      height: Get.height,
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          HeaderCommon.baseHeader(),
-          Expanded(child: _body()),
-        ],
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: SizedBox(
+        width: Get.width,
+        height: Get.height,
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            HeaderCommon.baseHeader(),
+            Expanded(child: _body()),
+          ],
+        ),
       ),
     );
   }

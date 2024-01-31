@@ -8,7 +8,6 @@ class AppDataGlobal {
   static const String appName = '';
   static String fcmToken = "";
   static String evironment = '';
-  static RxBool isFullScreen = false.obs;
 
   static String kioskSeriNo = 'Abc123';
 
