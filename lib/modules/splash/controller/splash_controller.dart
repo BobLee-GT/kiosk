@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:io';
 
+import 'package:fullscreen_window/fullscreen_window.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import '../../../utils/language.dart';
@@ -15,6 +17,7 @@ class SplashController extends GetxController {
   // It'll navigate to the next screen
 
   Future<void> initLoad() async {
+    if (Platform.isWindows) await FullScreenWindow.setFullScreen(true);
     //Get app language
     await _loadInitLanguage();
 

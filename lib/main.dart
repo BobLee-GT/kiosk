@@ -1,15 +1,17 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fullscreen_window/fullscreen_window.dart';
 import 'resource/config/config_environment.dart';
 
 import 'app.dart';
 
-
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  if(Platform.isWindows) FullScreenWindow.setFullScreen(true);
+
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+      overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
   //Custom error screen
   // ErrorWidget.builder = (details) {
   //   return ErrorMainWidget('${details.exception}');
@@ -24,5 +26,4 @@ void main() async{
   // await EnvConfiguration.initConfig(environment: 'uat');
   runApp(const App());
   configLoading();
-
 }
