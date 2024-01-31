@@ -17,7 +17,9 @@ class SplashController extends GetxController {
   // It'll navigate to the next screen
 
   Future<void> initLoad() async {
-    if (Platform.isWindows) await FullScreenWindow.setFullScreen(true);
+
+    // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+        // overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
     //Get app language
     await _loadInitLanguage();
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fullscreen_window/fullscreen_window.dart';
 import 'package:get/get.dart';
-import 'package:medipay/utils/common/asset/image.dart';
 import 'package:medipay/utils/common/asset/svg.dart';
 import 'package:medipay/utils/common/button.dart';
 import 'package:medipay/utils/common/color.dart';

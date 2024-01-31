@@ -1,8 +1,5 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fullscreen_window/fullscreen_window.dart';
 import 'resource/config/config_environment.dart';
 
 import 'app.dart';
@@ -12,6 +9,7 @@ void main() async {
 
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
       overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
+
   //Custom error screen
   // ErrorWidget.builder = (details) {
   //   return ErrorMainWidget('${details.exception}');
