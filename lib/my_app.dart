@@ -45,7 +45,14 @@ class _MyAppState extends State<MyApp> {
                   ip = '192.168.1.31';
                   setState(() {});
                 },
-                child: Text('Change IP'))
+                child: const Text('IP 192.168.1.31')),
+
+            ElevatedButton(
+                onPressed: () {
+                  ip = 'USB001';
+                  setState(() {});
+                },
+                child: const Text('IP USB001'))
           ],
         ),
       ),
@@ -65,6 +72,8 @@ class _MyAppState extends State<MyApp> {
       return;
     }
 
+    text = 'Connect printer successed';
+    setState(() {});
     printer.text(text, styles: PosStyles(align: PosAlign.left));
     printer.feed(2);
 
