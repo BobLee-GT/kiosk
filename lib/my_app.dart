@@ -10,59 +10,70 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  PosPrintResult? res;
+  String ip = 'auto';
+  String text = '', status = '';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Print Example'),
+        title: Text('Print $ip'),
       ),
       body: Center(
-        child: ElevatedButton(
-          onPressed: () async {
-            const PaperSize paper = PaperSize.mm80;
-            final profile = await CapabilityProfile.load();
-            final printer = NetworkPrinter(paper, profile);
-
-            res = await printer.connect('192.168.1.31', port: 9100);
-            setState(() {});
-            testReceipt(printer);
-          },
-          child: Column(
-            children: [
-              Text('Print - ${res == PosPrintResult.success}'),
-            ],
-          ),
+        child: Column(
+          children: [
+            ElevatedButton(
+              onPressed: () async {
+                // res = await printer.connect('192.168.1.31', port: 9100);
+                autoPrint('text');
+              },
+              child: Column(
+                children: [
+                  Text(
+                    'Print - $text',
+                    maxLines: 10,
+                  ),
+                  Text(
+                    'Status - $status',
+                    maxLines: 10,
+                  ),
+                ],
+              ),
+            ),
+            ElevatedButton(
+                onPressed: () {
+                  ip = '192.168.1.31';
+                  setState(() {});
+                },
+                child: Text('Change IP'))
+          ],
         ),
       ),
     );
   }
 
-  void testReceipt(NetworkPrinter printer) {
-    printer.text(
-        'Regular: aA bB cC dD eE fF gG hH iI jJ kK lL mM nN oO pP qQ rR sS tT uU vV wW xX yY zZ');
-    printer.text('Special 1: àÀ èÈ éÉ ûÛ üÜ çÇ ôÔ',
-        styles: PosStyles(codeTable: 'CP1252'));
-    printer.text('Special 2: blåbærgrød',
-        styles: PosStyles(codeTable: 'CP1252'));
+  Future<void> autoPrint(String text) async {
+    final profile = await CapabilityProfile.load();
+    final printer = NetworkPrinter(PaperSize.mm80, profile);
 
-    printer.text('Bold text', styles: PosStyles(bold: true));
-    printer.text('Reverse text', styles: PosStyles(reverse: true));
-    printer.text('Underlined text',
-        styles: PosStyles(underline: true), linesAfter: 1);
-    printer.text('Align left', styles: PosStyles(align: PosAlign.left));
-    printer.text('Align center', styles: PosStyles(align: PosAlign.center));
-    printer.text('Align right',
-        styles: PosStyles(align: PosAlign.right), linesAfter: 1);
+    // Kết nối đến máy in mặc định (có thể có vấn đề tương thích)
+    final PosPrintResult res = await printer.connect(ip, port: 9100);
 
-    printer.text('Text size 200%',
-        styles: PosStyles(
-          height: PosTextSize.size2,
-          width: PosTextSize.size2,
-        ));
+    if (res != PosPrintResult.success) {
+      text = 'Could not connect to the default printer. Error: $res';
+      setState(() {});
+      return;
+    }
 
+    printer.text(text, styles: PosStyles(align: PosAlign.left));
     printer.feed(2);
-    printer.cut();
+
+    if (res == PosPrintResult.success) {
+      status = 'Print successful';
+      setState(() {});
+    } else {
+      status = 'Print failed. Error: $res';
+      setState(() {});
+    }
   }
 }
