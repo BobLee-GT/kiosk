@@ -57,12 +57,8 @@ extension BodyCutstom on ScanFaceScreen {
                   ? ClipRRect(
                       borderRadius: BorderRadius.circular(44),
                       child: Platform.isWindows
-                          ? AspectRatio(
-                              aspectRatio: controller.previewSize!.value.width /
-                                  controller.previewSize!.value.height,
-                              child: CameraPlatform.instance
-                                  .buildPreview(controller.cameraId.value),
-                            )
+                          ? CameraPlatform.instance
+                              .buildPreview(controller.cameraId.value)
                           : CameraPreview(controller.controllerCamera!))
                   : controller.imageFace.value?.path == null
 

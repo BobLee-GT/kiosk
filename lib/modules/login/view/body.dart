@@ -53,7 +53,7 @@ extension BodyCustom on LoginScreen {
   }
 
   Widget _btnVerifyWithBHYT() {
-    return CustomButton.commonButton(title: 'Xác thực Với Bảo Hiểm Y Tế');
+    return CustomButton.commonButton(title: 'Xác thực Với Bảo Hiểm Y Tế', onTap: controller.onTapBHYT);
   }
 
   Widget _moreInfo({
