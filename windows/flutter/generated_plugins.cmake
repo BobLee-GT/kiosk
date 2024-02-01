@@ -5,6 +5,7 @@
 list(APPEND FLUTTER_PLUGIN_LIST
   bitsdojo_window_windows
   camera_windows
+  charset_converter
   connectivity_plus
   fullscreen_window
   url_launcher_windows
