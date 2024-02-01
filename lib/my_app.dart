@@ -1,70 +1,98 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
-
-import 'package:flutter/services.dart';
-import 'package:printer/printer.dart';
+import 'package:esc_pos_utils/esc_pos_utils.dart';
+import 'package:esc_pos_utils/esc_pos_utils.dart' as esc;
 
 class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
-  String _printResult = 'Unknown';
-
-  @override
-  void initState() {
-    super.initState();
-    initPlatformState();
-  }
-
-  // Platform messages are asynchronous, so we initialize in an async method.
-  Future<void> initPlatformState() async {
-    String platformVersion;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    // We also handle the message potentially returning null.
-    try {
-      platformVersion =
-          await Printer.platformVersion ?? 'Unknown platform version';
-      String content = "     *NEPAL TOURISM*     \n" +
-          "Date : 04/05/2022        \n" +
-          "Date  :        04/05/2022\n" +
-          "Time  :          05:32 PM\n" +
-          "Bus No:       UP-14AZ1512\n" +
-          "  Delhi   to   Ghazibad  \n" +
-          "Adult (2 X 100) =  200.00\n" +
-          "Child (1 X 50)  =   50.00\n" +
-          "     Total    250.00     \n" +
-          "      *SHUB YATRA*       ";
-
-      _printResult = await Printer.printContent(content: content) ?? 'Unknown platform version';
-      //_printResult = await Printer.printImage(imageBitmap) ?? 'Unknown platform version';
-    } on PlatformException {
-      platformVersion = 'Failed to get platform version.';
-    }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) return;
-
-    setState(() {
-      _platformVersion = platformVersion;
-    });
-  }
+  List<dynamic> profiles = [];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Plugin example app'),
+      appBar: AppBar(
+        title: Text('Print Example'),
+      ),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () {
+            // Gọi hàm in từ máy in mặc định
+            autoPrint('Hello, this is a test print');
+          },
+          child: Text(
+              'Print to Default Printer --- ${profiles.length > 0 ? profiles
+                  .first.toString() : ''}'),
         ),
-        body: Center(
-          child: Text('Running on: $_platformVersion\nPrint Result: $_printResult'),
-        ),
+      ),
     );
+  }
+
+  Future<void> autoPrint(String text) async {
+    // Xprinter XP-N160I
+    final profile = await CapabilityProfile.load();
+    final generator = Generator(PaperSize.mm80, profile);
+
+    profiles = await CapabilityProfile.getAvailableProfiles();
+
+    setState(() {});
+    List<int> bytes = [];
+
+    bytes += generator.text(
+        'Regular: aA bB cC dD eE fF gG hH iI jJ kK lL mM nN oO pP qQ rR sS tT uU vV wW xX yY zZ');
+    bytes += generator.text('Special 1: àÀ èÈ éÉ ûÛ üÜ çÇ ôÔ',
+        styles: PosStyles(codeTable: 'CP1252'));
+    bytes += generator.text('Special 2: blåbærgrød',
+        styles: PosStyles(codeTable: 'CP1252'));
+
+    bytes += generator.text('Bold text', styles: PosStyles(bold: true));
+    bytes += generator.text('Reverse text', styles: PosStyles(reverse: true));
+    bytes += generator.text('Underlined text',
+        styles: PosStyles(underline: true), linesAfter: 1);
+    bytes +=
+        generator.text('Align left', styles: PosStyles(align: PosAlign.left));
+    bytes +=
+        generator.text(
+            'Align center', styles: PosStyles(align: PosAlign.center));
+    bytes += generator.text('Align right',
+        styles: PosStyles(align: PosAlign.right), linesAfter: 1);
+
+    bytes += generator.row([
+      PosColumn(
+        text: 'col3',
+        width: 3,
+        styles: PosStyles(align: PosAlign.center, underline: true),
+      ),
+      PosColumn(
+        text: 'col6',
+        width: 6,
+        styles: PosStyles(align: PosAlign.center, underline: true),
+      ),
+      PosColumn(
+        text: 'col3',
+        width: 3,
+        styles: PosStyles(align: PosAlign.center, underline: true),
+      ),
+    ]);
+
+    bytes += generator.text('Text size 200%',
+        styles: PosStyles(
+          height: PosTextSize.size2,
+          width: PosTextSize.size2,
+        ));
+
+    // Print mixed (chinese + latin) text. Only for printers supporting Kanji mode
+    // ticket.text(
+    //   'hello ! 中文字 # world @ éphémère &',
+    //   styles: PosStyles(codeTable: PosCodeTable.westEur),
+    //   containsChinese: true,
+    // );
+
+    bytes += generator.feed(2);
+    bytes += generator.cut();
   }
 }
