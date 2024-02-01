@@ -27,12 +27,12 @@ class _MyAppState extends State<MyApp> {
           child: Column(
             children: [
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   // res = await printer.connect('192.168.1.31', port: 9100);
-                  setState(() async{
-                    text = 'Processing...';
-                    await autoPrint('text');
-                  });
+                  text = 'Processing...';
+                  setState(() {});
+                  await autoPrint('text');
+                  setState(() {});
                 },
                 child: Column(
                   children: [
@@ -42,24 +42,20 @@ class _MyAppState extends State<MyApp> {
                   ],
                 ),
               ),
-
               Text(
                 'Text - $text',
                 maxLines: 10,
               ),
-
               Text(
                 'Status - $status',
                 maxLines: 10,
               ),
-
               ElevatedButton(
                   onPressed: () {
                     ip = '192.168.1.31';
                     setState(() {});
                   },
                   child: const Text('IP 192.168.1.31')),
-
               ElevatedButton(
                   onPressed: () {
                     ip = 'USB001';
@@ -73,31 +69,38 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  Future<void> autoPrint(String text) async {
+  Future<void> autoPrint(String testText) async {
     try {
       final profile = await CapabilityProfile.load();
-      status = 'Connecting';
+      print('${profile.name}');
       final printer = NetworkPrinter(PaperSize.mm80, profile);
-      status = 'Connected';
+      status = 'Connecting';
+      setState(() {});
       // Kết nối đến máy in mặc định (có thể có vấn đề tương thích)
-      final PosPrintResult res = await printer.connect(ip, port: 9100);
+      final PosPrintResult res =
+          await printer.connect(ip, port: 9100, timeout: Duration(seconds: 5));
 
       if (res != PosPrintResult.success) {
-        text = 'Could not connect to the default printer. Error: $res';
+        text = 'Could not connect to the default printer. Error: ${res.value}';
+        setState(() {});
         return;
       }
 
       text = 'Connect printer successed';
-      printer.text(text, styles: PosStyles(align: PosAlign.left));
+      setState(() {});
+      printer.text(testText, styles: PosStyles(align: PosAlign.left));
       printer.feed(2);
 
       if (res == PosPrintResult.success) {
         status = 'Print successful';
+        setState(() {});
       } else {
         status = 'Print failed. Error: $res';
+        setState(() {});
       }
-    }catch(e){
+    } catch (e) {
       text = '$e';
+      setState(() {});
     }
   }
 }
