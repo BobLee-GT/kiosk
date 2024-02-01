@@ -25,7 +25,7 @@ class _MyAppState extends State<MyApp> {
             ElevatedButton(
               onPressed: () async {
                 // res = await printer.connect('192.168.1.31', port: 9100);
-                autoPrint('text');
+                await autoPrint('text');
               },
               child: Column(
                 children: [
@@ -60,29 +60,33 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> autoPrint(String text) async {
-    final profile = await CapabilityProfile.load();
-    final printer = NetworkPrinter(PaperSize.mm80, profile);
+    try {
+      final profile = await CapabilityProfile.load();
+      final printer = NetworkPrinter(PaperSize.mm80, profile);
 
-    // Kết nối đến máy in mặc định (có thể có vấn đề tương thích)
-    final PosPrintResult res = await printer.connect(ip, port: 9100);
+      // Kết nối đến máy in mặc định (có thể có vấn đề tương thích)
+      final PosPrintResult res = await printer.connect(ip, port: 9100);
 
-    if (res != PosPrintResult.success) {
-      text = 'Could not connect to the default printer. Error: $res';
+      if (res != PosPrintResult.success) {
+        text = 'Could not connect to the default printer. Error: $res';
+        setState(() {});
+        return;
+      }
+
+      text = 'Connect printer successed';
       setState(() {});
-      return;
-    }
+      printer.text(text, styles: PosStyles(align: PosAlign.left));
+      printer.feed(2);
 
-    text = 'Connect printer successed';
-    setState(() {});
-    printer.text(text, styles: PosStyles(align: PosAlign.left));
-    printer.feed(2);
-
-    if (res == PosPrintResult.success) {
-      status = 'Print successful';
-      setState(() {});
-    } else {
-      status = 'Print failed. Error: $res';
-      setState(() {});
+      if (res == PosPrintResult.success) {
+        status = 'Print successful';
+        setState(() {});
+      } else {
+        status = 'Print failed. Error: $res';
+        setState(() {});
+      }
+    }catch(e){
+      text = '$e';
     }
   }
 }
