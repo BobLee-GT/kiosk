@@ -121,7 +121,7 @@ class ScanFaceController extends GetxController {
 
   /// ********** ********** **********
 
-  /// Camera on mobile
+  /// Camera
   void handleOpenCamera() async {
     if (Platform.isWindows) {
       _fetchCameras();
