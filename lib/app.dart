@@ -1,23 +1,14 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:gotrust_popup/packagestatuscode.dart';
-import 'resource/deeplinks/handle_deeplink_app_not_run/app_not_run.dart';
-import 'resource/deeplinks/handle_deeplink_app_running/app_running.dart';
 import 'resource/lang/translation_service.dart';
 import 'routes/app_pages.dart';
 import 'service/connectivity/wifi.dart';
 import 'utils/app_life_cycle/track_life_cycle.dart';
 import 'utils/common/color.dart';
 import 'utils/common/data.dart';
-import 'utils/common/key_data_local.dart';
-import 'utils/stored/shared_preferences/get.dart';
-import 'package:uni_links/uni_links.dart';
-
-bool _initialUriIsHandled = false;
 
 class App extends StatefulWidget {
   const App({Key? key}) : super(key: key);
@@ -27,13 +18,10 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> with WidgetsBindingObserver {
-  StreamSubscription? _sub;
 
   @override
   void initState() {
     _handleInitial();
-    _handleInitialAppNotRunning();
-    _handleIncomingLinks();
     super.initState();
   }
 
@@ -45,7 +33,6 @@ class _AppState extends State<App> with WidgetsBindingObserver {
 
   @override
   void dispose() {
-    _sub?.cancel();
     super.dispose();
   }
 
@@ -55,39 +42,22 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     WifiService.connect();
   }
 
-  //Deelink work when app is not run on background
-  Future<void> _handleInitialAppNotRunning() async {
-    if (!_initialUriIsHandled) {
-      _initialUriIsHandled = true;
-      try {
-        final uri = await getInitialUri();
-        if (uri == null) return;
-
-        DeeplinkAppNotRunning.appNotRunning(uri: uri);
-      } on FormatException catch (err) {
-        GoTrustStatusCodePopup.showSnackBar(
-            code: "", title: err.message.toString());
-      }
-    }
-  }
-
-  //Deelink work when app is run on background
-  void _handleIncomingLinks() {
-    if (!kIsWeb) {
-      _sub = uriLinkStream.listen((Uri? uri) {
-        if (!mounted) return;
-        DeeplinkAppRunning.appRunning(uri: uri);
-      }, onError: (err) {
-        GoTrustStatusCodePopup.showSnackBar(code: "", title: err.toString());
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      onHorizontalDragUpdate: (details) {return;},
+      onHorizontalDragUpdate: (details) {
+        print('****** ${details.primaryDelta}');
+        if (details.primaryDelta! > 0) {
+          // Vuốt từ trái sang phải
+          // Để không là đã chặn vuốt
+          // Nếu muốn thực hiện hành động thì code vào đây
+        } else if (details.primaryDelta! < 0) {
+          // Vuốt từ phải sang trái
+          // Để không là đã chặn vuốt
+          // Nếu muốn thực hiện hành động thì code vào đây
+        }
+      },
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
         locale: TranslationService.locale,
