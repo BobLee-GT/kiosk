@@ -1,6 +1,7 @@
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'resource/config/config_environment.dart';
 
 import 'app.dart';
@@ -28,7 +29,7 @@ void main() async {
   runApp(const App());
 
   doWhenWindowReady(() {
-    var initialSize = const Size(1920, 1080);
+    var initialSize = Size(Get.width, Get.height);
     appWindow.minSize = initialSize;
     appWindow.size = initialSize;
     appWindow.alignment = Alignment.center;
