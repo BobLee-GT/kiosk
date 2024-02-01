@@ -56,6 +56,14 @@ class _MyAppState extends State<MyApp> {
                     setState(() {});
                   },
                   child: const Text('IP 192.168.1.31')),
+
+              ElevatedButton(
+                  onPressed: () {
+                    ip = '192.168.0.123';
+                    setState(() {});
+                  },
+                  child: const Text('IP 192.168.0.123')),
+
               ElevatedButton(
                   onPressed: () {
                     ip = 'USB001';
@@ -78,7 +86,7 @@ class _MyAppState extends State<MyApp> {
       setState(() {});
       // Kết nối đến máy in mặc định (có thể có vấn đề tương thích)
       final PosPrintResult res =
-          await printer.connect(ip, port: 9100, timeout: Duration(seconds: 5));
+          await printer.connect(ip, port: 9100);
 
       if (res != PosPrintResult.success) {
         text = 'Could not connect to the default printer. Error: ${res.value}';
