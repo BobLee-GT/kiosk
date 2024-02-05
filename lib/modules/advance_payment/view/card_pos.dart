@@ -38,7 +38,7 @@ extension CardPosCustom on AdvancePaymentScreen {
       children: [
         _itemTip(
             imageAsset: AssetImageName.flowCardPos1,
-            title: 'Cách 1',
+            title: 'Cách 1 ${controller.awakeInit.value}',
             subTitle: 'Đút thẻ vào khe bên dưới'),
         _itemTip(
             imageAsset: AssetImageName.flowCardPos2,

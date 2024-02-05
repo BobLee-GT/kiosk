@@ -3,6 +3,15 @@ import 'package:medipay/routes/app_pages.dart';
 
 class AdvancePaymentController extends GetxController {
   bool isQRCode = Get.arguments['isQRCode'];
+  RxString awakeInit = ''.obs;
+
+  @override
+  void onInit() {
+    if(isQRCode != true){
+      onExcutePaymentCardPOS();
+    }
+    super.onInit();
+  }
 
   void onExcutePaymentCardPOS() async {
     await Future.delayed(const Duration(seconds: 10));

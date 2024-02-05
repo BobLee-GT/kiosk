@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -30,15 +32,17 @@ void main() async {
   // await EnvConfiguration.initConfig(environment: 'uat');
   runApp(const App());
 
-  doWhenWindowReady(() async {
-    var initialSize = const Size(1080, 1920);
-    appWindow.minSize = initialSize;
-    appWindow.size = initialSize;
-    appWindow.alignment = Alignment.center;
-    AppDataGlobal.isFullScreen.value = true;
-    await FullScreenWindow.setFullScreen(AppDataGlobal.isFullScreen.value);
-    appWindow.show();
-  });
+  if(Platform.isWindows){
+    doWhenWindowReady(() async {
+      var initialSize = const Size(1080, 1920);
+      appWindow.minSize = initialSize;
+      appWindow.size = initialSize;
+      appWindow.alignment = Alignment.center;
+      AppDataGlobal.isFullScreen.value = true;
+      await FullScreenWindow.setFullScreen(AppDataGlobal.isFullScreen.value);
+      appWindow.show();
+    });
+  }
 
   configLoading();
 }
