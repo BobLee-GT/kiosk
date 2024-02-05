@@ -15,7 +15,9 @@ class AdvancePaymentController extends GetxController {
 
   void onExcutePaymentCardPOS() async {
     await Future.delayed(const Duration(seconds: 10));
-    Get.offAllNamed(Routes.PAYMENTRESULT, arguments: {"isSuccess": true});
+    // Get.offAllNamed(Routes.PAYMENTRESULT, arguments: {"isSuccess": true});
+
+    Get.toNamed(Routes.SIGNATUREPAD);
   }
 
   void onExcutePaymentQRCode() {

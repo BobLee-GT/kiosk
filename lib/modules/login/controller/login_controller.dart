@@ -6,5 +6,7 @@ class LoginController extends GetxController {
     Get.toNamed(Routes.SCANID);
   }
 
-  void onTapBHYT() {}
+  void onTapBHYT() {
+    Get.toNamed(Routes.SIGNATUREPAD);
+  }
 }

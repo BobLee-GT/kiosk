@@ -12,4 +12,5 @@ abstract class Routes {
   static const HOME = '/home';
   static const ADVANCEPAYMENT = '/advancePayment';
   static const MAKEAPPOINTMENT = '/makeAppointment';
+  static const SIGNATUREPAD = '/signaturePad';
 }

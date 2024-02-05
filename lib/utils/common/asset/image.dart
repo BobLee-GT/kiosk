@@ -1,6 +1,7 @@
 class AssetImageName {
   static String headerApp = 'assets/images/header.png';
   static String backgroundApp = 'assets/images/background_body.png';
+  static String backgroundSignature = 'assets/images/background-signature.png';
   static String backgroundButton = 'assets/images/background_button.png';
   static String backgroundButton01 = 'assets/images/background_button01.png';
   static String cardFail = 'assets/images/card_fail.png';

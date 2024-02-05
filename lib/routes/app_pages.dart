@@ -16,6 +16,8 @@ import 'package:medipay/modules/scan_card/binding/scan_card_binding.dart';
 import 'package:medipay/modules/scan_card/view/scan_card_screen.dart';
 import 'package:medipay/modules/scan_face/binding/scan_face_binding.dart';
 import 'package:medipay/modules/scan_face/view/scan_face_screen.dart';
+import 'package:medipay/modules/signature_pad/binding/signature_pad_binding.dart';
+import 'package:medipay/modules/signature_pad/view/signature_pad_screen.dart';
 
 import '../modules/info/binding/info_binding.dart';
 import '../modules/login/binding/login_binding.dart';
@@ -80,5 +82,10 @@ final routePages = [
     name: Routes.MAKEAPPOINTMENT,
     page: () => MakeAppointmentScreen(),
     binding: MakeAppointmentBinding(),
+  ),
+  GetPage(
+    name: Routes.SIGNATUREPAD,
+    page: () => SignaturePadScreen(),
+    binding: SignaturePadBinding(),
   ),
 ];
