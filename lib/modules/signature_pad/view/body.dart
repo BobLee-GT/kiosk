@@ -100,6 +100,7 @@ extension BodyCustom on SignaturePadScreen {
         // border: Border.all(color: AppColor.colorNeutral400),
       ),
       child: SfSignaturePad(
+        key: controller.signaturePadKey,
         minimumStrokeWidth: 4,
         maximumStrokeWidth: 8,
         strokeColor: AppColor.colorDark,

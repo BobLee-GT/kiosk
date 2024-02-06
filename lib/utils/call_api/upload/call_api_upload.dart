@@ -20,7 +20,7 @@ class CallAPIUpload {
           message: data.message == null
               ? 'Đã xảy ra lỗi trong quá trình xử lý hình ảnh. Vui lòng thử lại'
               : data.message.toString(),
-          titleButton: 'know'.tr,
+          titleButton: 'Đã hiểu',
           svgUrl: AssetSVGName.error);
     }
 

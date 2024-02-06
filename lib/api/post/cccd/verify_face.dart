@@ -18,6 +18,7 @@ class VerifyFaceAPI {
         "faceCaptureUrl": faceLink
       });
 
+
       if (kDebugMode) {
         print(
             '******** Status Call API VerifyFaceAPI: ${response.statusCode} ********');
